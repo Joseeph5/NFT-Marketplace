@@ -7,15 +7,17 @@ import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute='class'>
-      <div className='dark:bg-nft-dark bg-white min-h-screen'>
+    <ThemeProvider attribute="class">
+      <div className="dark:bg-nft-dark bg-white min-h-screen">
         <NavBar />
-        <Component {...pageProps} />
+        <div className="pt-65">
+          <Component {...pageProps} />
+        </div>
         <Footer />
       </div>
       <Script
-        src='https://kit.fontawesome.com/9a0c2aa5e4.js'
-        crossOrigin='anonymous'></Script>
+        src="https://kit.fontawesome.com/9a0c2aa5e4.js"
+        crossOrigin="anonymous"></Script>
     </ThemeProvider>
   );
 }

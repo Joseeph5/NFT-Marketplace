@@ -57,7 +57,7 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }: MenuItemsProps) =
 
 const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
   // const { connectWallet, currentAccount } = useContext(NFTContext);
-  const currentAccount: boolean = false;
+  const currentAccount: boolean = true;
 
   return currentAccount ? (
     <div className="flexCenter">
