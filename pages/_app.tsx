@@ -2,8 +2,7 @@ import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { ThemeProvider } from 'next-themes';
 
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
+import { NavBar, Footer } from '../components/';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
