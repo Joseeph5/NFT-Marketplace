@@ -1,5 +1,6 @@
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-import Button from '../components/Button';
+import NavBar from './NavBar';
+import Footer from './Footer';
+import Button from './Button';
+import Banner from './Banner';
 
-export { NavBar, Footer, Button };
+export { NavBar, Footer, Button, Banner };
