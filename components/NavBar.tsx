@@ -10,22 +10,22 @@ import { Button } from './';
 interface MenuItemsProps {
   isMobile?: boolean;
   active?: string;
-  setActive: Dispatch<SetStateAction<string>>;
-  setIsOpen?: Dispatch<SetStateAction<string>> | undefined;
+  setActive?: Dispatch<SetStateAction<string | undefined>>;
+  setIsOpen?: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
 interface ButtonGroupProps {
-  setActive: Dispatch<SetStateAction<string>>;
+  setActive: Dispatch<SetStateAction<string | undefined>>;
   router: NextRouter;
 }
 
-const MenuItems = ({ isMobile, active, setActive, setIsOpen }: MenuItemsProps) => {
+const MenuItems = ({ isMobile, active, setActive }: MenuItemsProps) => {
   const generateLink = (i: number) => {
     switch (i) {
       case 0:
         return '/';
       case 1:
-        return '/created-nft';
+        return '/created-nfts';
       case 2:
         return '/my-nft';
       default:
@@ -39,7 +39,9 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }: MenuItemsProps) =
         <li
           key={i}
           onClick={() => {
-            setActive(item);
+            if (setActive) {
+              setActive(item);
+            }
           }}
           className={`flex flex-row items-center font-poppins font-semibold text-base dark:hover:text-white hover:text-nft-dark mx-3
           ${
@@ -78,8 +80,9 @@ const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
 
 const NavBar = () => {
   const { theme, setTheme } = useTheme();
-  const [active, setActive] = useState<string>('Explore NFTs');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [active, setActive] = useState<string | undefined>('Explore NFTs');
+  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+
   const router = useRouter();
   return (
     <nav className="flexBetween w-full fixed z-10 p-4 flex-row border-b dark:bg-nft-dark bg-white dark:border-nft-black-1 border-nft-gray-1">
@@ -123,6 +126,45 @@ const NavBar = () => {
             </label>
           </div>
         </div>
+      </div>
+      <div className="hidden md:flex ml-2">
+        {!isOpen ? (
+          <Image
+            src={images.menu}
+            objectFit="contain"
+            width={25}
+            height={25}
+            alt="menu"
+            onClick={() => setIsOpen(!isOpen)}
+            className={theme === 'light' ? 'filter invert' : undefined}
+          />
+        ) : (
+          <Image
+            src={images.cross}
+            objectFit="contain"
+            width={20}
+            height={20}
+            alt="close"
+            onClick={() => setIsOpen(!isOpen)}
+            className={theme === 'light' ? 'filter invert' : undefined}
+          />
+        )}
+
+        {isOpen && (
+          <div className="fixed inset-0 top-65 dark:bg-nft-dark bg-white z-10 nav-h flex justify-between flex-col">
+            <div className="flex-1 p-4">
+              <MenuItems
+                active={active}
+                setActive={setActive}
+                isMobile
+                setIsOpen={setIsOpen}
+              />
+            </div>
+            <div className="p-4 border-t dark:border-nft-black-1 border-nft-gray-1">
+              <ButtonGroup setActive={setActive} router={router} />
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
