@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Banner, CreatorCard } from '../components';
 import images from '../assets';
 import { useTheme } from 'next-themes';
+import { NftList } from '../components/';
 
 const Home: NextPage = () => {
   const parentRef = useRef<HTMLInputElement>(null);
@@ -101,6 +102,7 @@ const Home: NextPage = () => {
               )}
             </div>
           </div>
+          <NftList />
         </div>
       </div>
     </div>
