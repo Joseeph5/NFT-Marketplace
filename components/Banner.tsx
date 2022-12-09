@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface BannerProps {
-  name: JSX.Element[];
+  name: any;
   childStyles: string;
   parentStyle: string;
 }

@@ -5,9 +5,9 @@ import images from '../assets';
 
 interface CreatorCardProps {
   rank: number;
-  creatorImage: string;
-  creatorName: string;
-  creatorEths: number;
+  creatorImage: any;
+  creatorName?: string;
+  creatorEths?: number;
 }
 
 const CreatorCard = ({
@@ -44,7 +44,7 @@ const CreatorCard = ({
           {creatorName}
         </p>
         <p className="mt-1 font-poppins dark:text-white text-nft-black-1 font-semibold text-base">
-          {creatorEths.toFixed(2)} <span className="font-normal"></span>
+          {/* {creatorEths.toFixed(2)} <span className="font-normal"></span> */}
         </p>
       </div>
     </div>
