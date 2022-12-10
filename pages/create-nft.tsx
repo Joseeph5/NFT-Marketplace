@@ -10,6 +10,7 @@ import images from '../assets';
 function CreateNft() {
   const [fileUrl, setFileUrl] = useState(null);
   const { theme } = useTheme();
+  const router = useRouter();
 
   const onDrop = useCallback(async () => {}, []);
 
@@ -33,6 +34,14 @@ function CreateNft() {
   );
 
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' });
+
+  const createMarket = async () => {
+    const { name, description, price } = formInput;
+    if (!name || !description || !price || !fileUrl) return;
+    /* first, upload to IPFS */
+
+    router.push('/');
+  };
 
   return (
     <div className='flex justify-center sm:px-4 p-12'>
@@ -95,6 +104,14 @@ function CreateNft() {
           placeholder='Asset Price'
           handleClick={(e) => updateFormInput({ ...formInput, price: e.target.value })}
         />
+        <div className='mt-7 w-full flex justify-end'>
+          <Button
+            btnName='Create Item'
+            btnType='primary'
+            classStyles='rounded-xl'
+            handleClick={createMarket}
+          />
+        </div>
       </div>
     </div>
   );

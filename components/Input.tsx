@@ -21,7 +21,7 @@ const Input = ({ inputType, title, placeholder, handleClick }: InputProps) => {
             onChange={handleClick}
           />
           <p className='font-poppins dark:text-white text-nft-black-1 font-semibold text-xl'>
-            {'nftCurrency'}
+            ETH
           </p>
         </div>
       ) : inputType === 'textarea' ? (
