@@ -38,13 +38,13 @@ contract NFTMarketplace is ERC721URIStorage {
       owner = payable(msg.sender);
     }
 
-    /* Updates the listing price of the contract */
+    // Updates the listing price of the contract
     function updateListingPrice(uint _listingPrice) public payable {
       require(owner == msg.sender, "Only marketplace owner can update listing price.");
       listingPrice = _listingPrice;
     }
 
-    /* Returns the listing price of the contract */
+    // Returns the listing price of the contract
     function getListingPrice() public view returns (uint256) {
       return listingPrice;
     }
@@ -74,7 +74,7 @@ contract NFTMarketplace is ERC721URIStorage {
       );
     }
 
-    /* Mints a token and lists it in the marketplace */
+    // Mints a token and lists it in the marketplace
     function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
       _tokenIds.increment();
       uint256 newTokenId = _tokenIds.current();
@@ -83,5 +83,18 @@ contract NFTMarketplace is ERC721URIStorage {
       _setTokenURI(newTokenId, tokenURI);
       createMarketItem(newTokenId, price);
       return newTokenId;
+    }
+
+    // allows someone to resell a token they have purchased
+    function resellToken(uint256 tokenId, uint256 price) public payable {
+      require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
+      require(msg.value == listingPrice, "Price must be equal to listing price");
+      idToMarketItem[tokenId].sold = false;
+      idToMarketItem[tokenId].price = price;
+      idToMarketItem[tokenId].seller = payable(msg.sender);
+      idToMarketItem[tokenId].owner = payable(address(this));
+      _itemsSold.decrement();
+
+      _transfer(msg.sender, address(this), tokenId);
     }
 }
