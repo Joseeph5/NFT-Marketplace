@@ -20,7 +20,9 @@
     "**/*.ts",
     "**/*.tsx",
     "postcss.config.js",
-    "next.config.js"
+    "next.config.js",
+    "hardhat.config.js",
+    "scripts/deploy.js"
   ],
   "exclude": ["node_modules"]
 }
