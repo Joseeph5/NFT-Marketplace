@@ -3,27 +3,45 @@ import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
+import { create as ipfsHttpClient } from 'ipfs-http-client';
 
 import { Button, Input } from '../components';
 import images from '../assets';
 
+const client = ipfsHttpClient({ url: 'https://ipfs.infura.io:5001/api/v0' });
+
 function CreateNft() {
-  const [fileUrl, setFileUrl] = useState(null);
+  const [fileUrl, setFileUrl] = useState<string>('');
   const { theme } = useTheme();
   const router = useRouter();
 
-  const onDrop = useCallback(async () => {}, []);
+  const uploadToInfura = async (file: any) => {
+    try {
+      const added = await client.add({ content: file });
+
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      console.log(url);
+
+      setFileUrl(url);
+    } catch (error) {
+      console.log('Error uploading file: ', error);
+    }
+  };
+
+  const onDrop = useCallback(async (acceptedFile: any) => {
+    await uploadToInfura(acceptedFile[0]);
+  }, []);
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } =
     useDropzone({
       onDrop,
       accept: {
-        'image/*': ['.jpeg', '.png', '.jpg'],
+        'image/jpeg': [],
+        'image/png': [],
       },
-      maxSize: 5000000,
     });
 
-  // add tailwind classes acording to the file status
+  // add tailwind classes according to the file status
   const fileStyle = useMemo(
     () =>
       `dark:bg-nft-black-1 bg-white border dark:border-white border-nft-gray-2 flex flex-col items-center p-5 rounded-sm border-dashed  
@@ -33,14 +51,26 @@ function CreateNft() {
     [isDragActive, isDragReject, isDragAccept]
   );
 
-  const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' });
+  console.log({ isDragActive, isDragAccept, isDragReject });
+
+  const [formInput, updateFormInput] = useState({
+    price: '',
+    name: '',
+    description: '',
+  });
 
   const createMarket = async () => {
     const { name, description, price } = formInput;
     if (!name || !description || !price || !fileUrl) return;
-    /* first, upload to IPFS */
-
-    router.push('/');
+    // first, upload to IPFS
+    const data = JSON.stringify({ name, description, image: fileUrl });
+    try {
+      const added = await client.add(data);
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      router.push('/');
+    } catch (error) {
+      console.log('Error uploading file: ', error);
+    }
   };
 
   return (
@@ -55,7 +85,10 @@ function CreateNft() {
             Upload file
           </p>
           <div className='mt-4'>
-            <div {...getRootProps()} className={fileStyle}>
+            <div
+              {...getRootProps({
+                className: fileStyle,
+              })}>
               <input {...getInputProps()} />
               <div className='flexCenter flex-col text-center'>
                 <p className='font-poppins dark:text-white text-nft-black-1 font-semibold text-xl'>

@@ -26,7 +26,6 @@ export const NFTProvider = ({ children }: any) => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
     setCurrentAccount(accounts[0]);
-    window.location.reload();
   };
 
   const checkIfWalletIsConnect = async () => {
