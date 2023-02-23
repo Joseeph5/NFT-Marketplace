@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import Script from 'next/script';
 import { ThemeProvider } from 'next-themes';
@@ -7,6 +8,16 @@ import { NavBar, Footer } from '../components/';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Avoid Hydration Mismatch
+  if (!mounted) {
+    return null;
+  }
   return (
     <NFTProvider>
       <ThemeProvider attribute='class'>
