@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import images from '../assets';
 import { Button } from './';
+import { NFTContext } from '../context/NFTContext';
 
 interface MenuItemsProps {
   isMobile?: boolean;
@@ -58,15 +59,14 @@ const MenuItems = ({ isMobile, active, setActive }: MenuItemsProps) => {
 };
 
 const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
-  // const { connectWallet, currentAccount } = useContext(NFTContext);
-  const currentAccount: boolean = true;
+  const { connectWallet, currentAccount } = useContext(NFTContext);
 
   return currentAccount ? (
-    <div className="flexCenter">
+    <div className='flexCenter'>
       <Button
-        btnName="Create"
-        btnType="primary"
-        classStyles="mx-2 rounded-xl"
+        btnName='Create'
+        btnType='primary'
+        classStyles='mx-2 rounded-xl'
         handleClick={() => {
           setActive('');
           router.push('/create-nft');
@@ -74,7 +74,12 @@ const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
       />
     </div>
   ) : (
-    <Button btnName="Connect" btnType="outline" classStyles="mx-2 rounded-lg" />
+    <Button
+      btnName='Connect'
+      handleClick={connectWallet}
+      btnType='primary'
+      classStyles='mx-2 rounded-xl'
+    />
   );
 };
 
@@ -85,74 +90,74 @@ const NavBar = () => {
 
   const router = useRouter();
   return (
-    <nav className="flexBetween w-full fixed z-10 p-4 flex-row border-b dark:bg-nft-dark bg-white dark:border-nft-black-1 border-nft-gray-1">
-      <div className="flex flex-1 flex-row justify-start">
-        <Link href="/">
-          <div className="flexCenter  cursor-pointer">
+    <nav className='flexBetween w-full fixed z-10 p-4 flex-row border-b dark:bg-nft-dark bg-white dark:border-nft-black-1 border-nft-gray-1'>
+      <div className='flex flex-1 flex-row justify-start'>
+        <Link href='/'>
+          <div className='flexCenter  cursor-pointer'>
             <Image
               src={images.logo02}
-              objectFit="contain"
+              objectFit='contain'
               width={32}
               height={32}
-              alt="logo"
+              alt='logo'
             />
-            <p className="md:hidden dark:text-white text-nft-black-1 font-semibold text-lg ml-1">
+            <p className='md:hidden dark:text-white text-nft-black-1 font-semibold text-lg ml-1'>
               MagicSpace
             </p>
           </div>
         </Link>
       </div>
-      <div className="md:hidden flex">
-        <ul className="list-none flexCenter flex-row">
+      <div className='md:hidden flex'>
+        <ul className='list-none flexCenter flex-row'>
           <MenuItems active={active} setActive={setActive} />
         </ul>
-        <div className="ml-4">
+        <div className='ml-4'>
           <ButtonGroup setActive={setActive} router={router} />
         </div>
-        <div className="flex flex-initial flex-row justify-end">
-          <div className="flex items-center mr-2 ml-4">
+        <div className='flex flex-initial flex-row justify-end'>
+          <div className='flex items-center mr-2 ml-4'>
             <input
-              type="checkbox"
-              className="checkbox"
-              id="checkbox"
+              type='checkbox'
+              className='checkbox'
+              id='checkbox'
               onChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             />
             <label
-              htmlFor="checkbox"
-              className="flexBetween w-8 h-4 bg-black rounded-2xl p-1 relative label cursor-pointer">
-              <i className="fas fa-sun" />
-              <i className="fas fa-moon" />
-              <div className="w-3 h-3 absolute bg-white rounded-full ball" />
+              htmlFor='checkbox'
+              className='flexBetween w-8 h-4 bg-black rounded-2xl p-1 relative label cursor-pointer'>
+              <i className='fas fa-sun' />
+              <i className='fas fa-moon' />
+              <div className='w-3 h-3 absolute bg-white rounded-full ball' />
             </label>
           </div>
         </div>
       </div>
-      <div className="hidden md:flex ml-2">
+      <div className='hidden md:flex ml-2'>
         {!isOpen ? (
           <Image
             src={images.menu}
-            objectFit="contain"
+            objectFit='contain'
             width={25}
             height={25}
-            alt="menu"
+            alt='menu'
             onClick={() => setIsOpen(!isOpen)}
             className={theme === 'light' ? 'filter invert' : undefined}
           />
         ) : (
           <Image
             src={images.cross}
-            objectFit="contain"
+            objectFit='contain'
             width={20}
             height={20}
-            alt="close"
+            alt='close'
             onClick={() => setIsOpen(!isOpen)}
             className={theme === 'light' ? 'filter invert' : undefined}
           />
         )}
 
         {isOpen && (
-          <div className="fixed inset-0 top-65 dark:bg-nft-dark bg-white z-10 nav-h flex justify-between flex-col">
-            <div className="flex-1 p-4">
+          <div className='fixed inset-0 top-65 dark:bg-nft-dark bg-white z-10 nav-h flex justify-between flex-col'>
+            <div className='flex-1 p-4'>
               <MenuItems
                 active={active}
                 setActive={setActive}
@@ -160,7 +165,7 @@ const NavBar = () => {
                 setIsOpen={setIsOpen}
               />
             </div>
-            <div className="p-4 border-t dark:border-nft-black-1 border-nft-gray-1">
+            <div className='p-4 border-t dark:border-nft-black-1 border-nft-gray-1'>
               <ButtonGroup setActive={setActive} router={router} />
             </div>
           </div>
