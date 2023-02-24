@@ -8,7 +8,7 @@ import { create as ipfsHttpClient } from 'ipfs-http-client';
 import { Button, Input } from '../components';
 import images from '../assets';
 
-const client = ipfsHttpClient({ url: 'https://ipfs.infura.io:5001/api/v0' });
+const client = ipfsHttpClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
 function CreateNft() {
   const [fileUrl, setFileUrl] = useState<string>('');
@@ -50,8 +50,6 @@ function CreateNft() {
        ${isDragReject ? ' border-file-reject ' : ''}`,
     [isDragActive, isDragReject, isDragAccept]
   );
-
-  console.log({ isDragActive, isDragAccept, isDragReject });
 
   const [formInput, updateFormInput] = useState({
     price: '',

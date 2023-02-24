@@ -1,8 +1,22 @@
 import type { NextPage } from 'next';
+import { useContext, useEffect } from 'react';
 
 import { Banner, BestCreators } from '../components';
+import { NFTContext } from '../context/NFTContext';
 
 const Home: NextPage = () => {
+  const { fetchNFTs } = useContext(NFTContext);
+
+  useEffect(() => {
+    fetchNFTs()
+      .then((nfts: any) => {
+        console.log({ nfts });
+      })
+      .catch((err: any) => {
+        console.log({ err });
+      });
+  }, []);
+
   return (
     <div className='flex justify-center sm:px-4 p-12'>
       <div className='w-full minmd:w-4/5'>
